@@ -7,54 +7,53 @@ import (
 
 type SidikApp struct{}
 
-type UserAction interface {
+type Auth interface {
 	Register()
 	Login()
-	ForgotPassword()
+	ForgotPassword(i int)
 }
 
 type User struct {
 	FirstName string
-	LastName string
-	Email string
-	Password string
+	LastName  string
+	Email     string
+	Password  string
 }
 
 var loggedInUser User
 
 var users *[]User = &[]User{}
 
+var auth Auth = &SidikApp{}
+
 func Init() {
 	defer func() {
 		if r := recover(); r != nil {
-			fmt.Println(r)
+			msg := "\n" + fmt.Sprint(r) + "\nClose Program. . ."
+			Alert(msg)
 		}
 	}()
 
-	system := &SidikApp{}
-
 	for {
-		ClearScreen()
-		fmt.Println("========================================")
-		fmt.Println("Welcome to My System")
-		fmt.Println("\n1. Register\n2. Login\n3. Forgot Password")
-		fmt.Println("\n0. Exit")
+		Title("Welcome to My System")
+		fmt.Println("   1. Register\n   2. Login\n   3. Forgot Password")
+		fmt.Println("\n   0. Exit")
 		fmt.Printf("\nChoose a menu: ")
-		var choosed int
-		fmt.Scan(&choosed)
+		var input int
+		fmt.Scanln(&input)
 
-		switch choosed {
+		switch input {
 		case 0:
-			fmt.Println("Exiting...")
+			Alert("Exiting...")
 			os.Exit(0)
 		case 1:
-			system.Register()
+			auth.Register()
 		case 2:
-			system.Login()
+			auth.Login()
 		case 3:
-			system.ForgotPassword()
+			auth.ForgotPassword(1)
 		default:
-			panic("Invalid menu choice")
+			panic("Invalid input")
 		}
 	}
 }
