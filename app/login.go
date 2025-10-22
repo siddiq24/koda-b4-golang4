@@ -2,39 +2,31 @@ package app
 
 import (
 	"fmt"
-	"time"
 )
 
 func (s *SidikApp) Login() {
-	ClearScreen()
 	var email, password string
+	Title("LOGIN")
 	fmt.Print("Enter email: ")
-	fmt.Scan(&email)
+	fmt.Scanln(&email)
 	fmt.Print("Enter password: ")
-	fmt.Scan(&password)
+	fmt.Scanln(&password)
 
 	hashed := hashMD5(password)
 	for i, user := range *users {
-		if user.Email == email && user.Password == hashed {
-			loggedInUser = (*users)[i]
-			fmt.Println("\nLogin successful!")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
-			s.Home()
-			return
+		if user.Email == email {
+			if user.Password == hashed {
+				loggedInUser = (*users)[i]
+				Alert("\nLogin successful . . .")
+				s.Home()
+				return
+			} else {
+				Alert("\nEmail or password invalid. . .")
+				s.Login()
+				return
+			}
 		}
 	}
-	fmt.Println("Login failed. Invalid credentials.")
-	time.Sleep(500 * time.Millisecond)
-	fmt.Print(" .")
-	time.Sleep(500 * time.Millisecond)
-	fmt.Print(" .")
-	time.Sleep(500 * time.Millisecond)
-	fmt.Print(" .")
-	time.Sleep(500 * time.Millisecond)
+	Alert("\nUser Not Found . . . .")
+	s.Register()
 }

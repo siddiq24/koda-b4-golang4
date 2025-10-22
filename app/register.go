@@ -2,52 +2,61 @@ package app
 
 import (
 	"fmt"
-	"time"
 )
 
 func (s *SidikApp) Register() {
-	ClearScreen()
-	var firstName, lastName, email, password, password2 string
-	fmt.Println("--- REGISTER ---")
+	var newUser User
+	var password1, password2 string
+
+	Title("REGISTER")
 	fmt.Print("Enter your first name: ")
-	fmt.Scan(&firstName)
-	fmt.Print("Enter your last name: ")
-	fmt.Scan(&lastName)
-	fmt.Print("Enter your email: ")
-	fmt.Scan(&email)
-	fmt.Print("Enter password: ")
-	fmt.Scan(&password)
+	fmt.Scanln(&newUser.FirstName)
+	fmt.Print("Enter your last name : ")
+	fmt.Scanln(&newUser.LastName)
+	fmt.Print("Enter your email     : ")
+	fmt.Scanln(&newUser.Email)
+	fmt.Print("Enter password       : ")
+	fmt.Scanln(&password1)
 	fmt.Print("Confirmation password: ")
-	fmt.Scan(&password2)
+	fmt.Scanln(&password2)
 
-	var hashed string
-	if password == password2 {
-		hashed = hashMD5(password)
-		*users = append(*users,
-			User{
-				FirstName: firstName,
-				LastName:  lastName,
-				Email:     email,
-				Password:  hashed,
-			},
-		)
+	if password1 == password2 {
+		for _, user := range *users {
+			if user.Email == newUser.Email {
+				Alert("\nYour Email Alredy Exist. . .")
+				s.Login()
+				return
+			}
+		}
+		newUser.Password = hashMD5(password1)
+		s.Validate(newUser)
+		Alert("\nUser registered successfully! . . . .")
 
-		fmt.Print("\nUser registered successfully!")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
 	} else {
-		fmt.Print("\nYour Password is difference!")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
+		Alert("\nYour Password not match!\n\nTry Again . . . .")
+		s.Register()
 	}
+}
+
+func (s *SidikApp) Validate(usr User) {
+	Title("REGISTER")
+
+	var input string
+
+	fmt.Println("Is it true?")
+	fmt.Println("\n   First Name :", usr.FirstName)
+	fmt.Println("   Last Name  :", usr.LastName)
+	fmt.Println("   Email      :", usr.Email)
+	fmt.Print("\nContinue (y/n): ")
+	fmt.Scanln(&input)
+	switch input {
+	case "y":
+		*users = append(*users, usr)
+		return
+	case "n":
+		s.Register()
+	default:
+		s.Validate(usr)
+	}
+
 }

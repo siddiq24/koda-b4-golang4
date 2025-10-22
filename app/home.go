@@ -2,20 +2,17 @@ package app
 
 import (
 	"fmt"
-	"time"
 )
 
 func (s *SidikApp) Home() {
 	for {
-		ClearScreen()
-		fmt.Println("========================================")
-		fmt.Println("WELCOME TO HOME")
-		fmt.Println("========================================")
-		fmt.Println("\n1. Show all users\n2. Logout\n\n0. Exit")
-		var choosed int
+		Title("  HOME  ")
+
+		fmt.Println("\n   1. Show all users\n   2. Logout\n\n   0. Exit")
+		var input int
 		fmt.Print("\nChoose a menu: ")
-		fmt.Scan(&choosed)
-		switch choosed {
+		fmt.Scanln(&input)
+		switch input {
 		case 1:
 			s.ShowUserList()
 		case 2:
@@ -24,51 +21,29 @@ func (s *SidikApp) Home() {
 					*users = append((*users)[:i], (*users)[i+1:]...)
 				}
 			}
-			fmt.Print("Loggout")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
+			Alert("Loggout Successfull. . . .")
 			return
 		case 0:
-			fmt.Print("Exitting")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
-			fmt.Print(" .")
-			time.Sleep(500 * time.Millisecond)
+			Alert("Exitting. . . .")
 			return
+		default:
+			s.Home()
 		}
 	}
 }
 
 func (s *SidikApp) ShowUserList() {
-	ClearScreen()
-	fmt.Println("\n--- Show All Users ---")
+	Title("  HOME  ")
+
+	fmt.Println("")
 	for i, user := range *users {
-		fmt.Println(i+1)
+		fmt.Println(i + 1)
 		fmt.Printf("Full Name: %s %s\n", user.FirstName, user.LastName)
 		fmt.Printf("Email    : %s\n", user.Email)
 		fmt.Printf("Password : %s\n\n", user.Password)
 	}
 	fmt.Println("------------------------")
-	fmt.Print("\nInput anything to exit: ")
-	var i int
-	fmt.Scan(&i)
-	if i == 0 {
-		fmt.Print("\nExiting")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
-		fmt.Print(" .")
-		time.Sleep(500 * time.Millisecond)
-		return
-	}
+	Alert("\nPress enter to exit: ")
+	var i string
+	fmt.Scanln(&i)
 }
