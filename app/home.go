@@ -51,7 +51,7 @@ func (s *SidikApp) ShowUserList() {
 	ClearScreen()
 	fmt.Println("\n--- Show All Users ---")
 	for i, user := range *users {
-		fmt.Println(i)
+		fmt.Println(i+1)
 		fmt.Printf("Full Name: %s %s\n", user.FirstName, user.LastName)
 		fmt.Printf("Email    : %s\n", user.Email)
 		fmt.Printf("Password : %s\n\n", user.Password)
