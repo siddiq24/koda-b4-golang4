@@ -40,13 +40,14 @@ func (s *SidikApp) Register() {
 		time.Sleep(500 * time.Millisecond)
 		fmt.Print(" .")
 		time.Sleep(500 * time.Millisecond)
+	} else {
+		fmt.Print("\nYour Password is difference!")
+		time.Sleep(500 * time.Millisecond)
+		fmt.Print(" .")
+		time.Sleep(500 * time.Millisecond)
+		fmt.Print(" .")
+		time.Sleep(500 * time.Millisecond)
+		fmt.Print(" .")
+		time.Sleep(500 * time.Millisecond)
 	}
-	fmt.Print("\nYour Password is difference!")
-	time.Sleep(500 * time.Millisecond)
-	fmt.Print(" .")
-	time.Sleep(500 * time.Millisecond)
-	fmt.Print(" .")
-	time.Sleep(500 * time.Millisecond)
-	fmt.Print(" .")
-	time.Sleep(500 * time.Millisecond)
 }
