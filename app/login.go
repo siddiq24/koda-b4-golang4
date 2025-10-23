@@ -16,7 +16,7 @@ func (s *SidikApp) Login() {
 	for i, user := range *users {
 		if user.Email == email {
 			if user.Password == hashed {
-				loggedInUser = (*users)[i]
+				LoggedInUser = (*users)[i]
 				Alert("\nLogin successful . . .")
 				s.Home()
 				return

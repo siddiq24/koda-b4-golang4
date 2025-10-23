@@ -20,7 +20,7 @@ type User struct {
 	Password  string
 }
 
-var loggedInUser User
+var LoggedInUser User
 
 var users *[]User = &[]User{}
 
