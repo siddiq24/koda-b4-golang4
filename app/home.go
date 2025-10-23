@@ -2,29 +2,30 @@ package app
 
 import (
 	"fmt"
+	"os"
 )
+
 
 func (s *SidikApp) Home() {
 	for {
 		Title("  HOME  ")
 
 		fmt.Println("\n   1. Show all users\n   2. Logout\n\n   0. Exit")
-		var input int
+		var input string
 		fmt.Print("\nChoose a menu: ")
 		fmt.Scanln(&input)
 		switch input {
-		case 1:
+		case "1":
 			s.ShowUserList()
-		case 2:
-			for i, user := range *users {
-				if user == loggedInUser {
-					*users = append((*users)[:i], (*users)[i+1:]...)
-				}
-			}
+		case "2":
+			LoggedInUser = User{}
 			Alert("Loggout Successfull. . . .")
+			Init()
 			return
-		case 0:
-			Alert("Exitting. . . .")
+		case "0":
+			Alert("\nExitting Program")
+			Alert("\nBye bye....")
+			os.Exit(0)
 			return
 		default:
 			s.Home()
@@ -42,8 +43,7 @@ func (s *SidikApp) ShowUserList() {
 		fmt.Printf("Email    : %s\n", user.Email)
 		fmt.Printf("Password : %s\n\n", user.Password)
 	}
-	fmt.Println("------------------------")
-	Alert("\nPress enter to exit: ")
-	var i string
-	fmt.Scanln(&i)
+	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	Alert("\n>> Press enter to exit ")
+	fmt.Scanln()
 }
